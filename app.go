@@ -46,6 +46,24 @@ func (a *App) ReadSystem(cfg bms.Config) (*bms.SystemSnapshot, error) {
 	return snap, err
 }
 
+// ---- Commissioning: combiner energization (the only register writes) ----
+
+// EvaluateRunGate returns the Run preconditions for a snapshot (pure; no device
+// I/O). The frontend uses it to show which gates pass before offering Run.
+func (a *App) EvaluateRunGate(snap bms.SystemSnapshot, maxSpreadV float64) bms.RunGate {
+	return bms.EvaluateRunGate(&snap, maxSpreadV)
+}
+
+// IssueRun performs the gated commissioning Run write (0x1094 = 0xAA), which
+// closes the string relays and energizes the combiner bus. COMMISSIONING ONLY —
+// this is the single register write in the app. Hard gates (all strings online,
+// no active protections) always apply; force bypasses only the soft gates.
+func (a *App) IssueRun(cfg bms.Config, maxSpreadV float64, autoWake, force bool) (*bms.RunResult, error) {
+	return bms.IssueRun(config.WithDefaults(cfg), bms.RunOptions{
+		MaxSpreadV: maxSpreadV, AutoWake: autoWake, Force: force,
+	})
+}
+
 // ---- Remote (Solarman) source ----
 
 // GetRemoteConfig returns saved Solarman settings (token + station).

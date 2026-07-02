@@ -68,6 +68,41 @@ type StringInfo struct {
 	CellV          []float64 `json:"cellV"`
 }
 
+// CombinerStatus reports whether the strings have closed their relays and
+// energized the shared combiner bus. Derived from the aggregate block:
+//   - System operation status (0x1141, special MBMS firmware): Standby / Run
+//   - Switching value (0x110F, Appendix II): charge / discharge / pre-charge relays
+type CombinerStatus struct {
+	OK          bool     `json:"ok"`          // status registers were read
+	Live        bool     `json:"live"`        // a main relay is closed / system in Run
+	State       string   `json:"state"`       // "Standby" | "Run" | "Unknown"
+	SysOpRaw    int      `json:"sysOpRaw"`    // raw 0x1141
+	Switching   int      `json:"switching"`   // raw 0x110F
+	Relays      []string `json:"relays"`      // ON switch labels (Appendix II)
+	RelayClosed bool     `json:"relayClosed"` // charge or discharge circuit ON
+	BusV        float64  `json:"busV"`        // bus voltage when live (aggregate total V)
+}
+
+// buildCombiner derives the combiner state from the two status registers.
+func buildCombiner(sysop, sw uint16, busV float64) CombinerStatus {
+	c := CombinerStatus{
+		OK:          true,
+		SysOpRaw:    int(sysop),
+		Switching:   int(sw),
+		Relays:      SwitchFlags(sw),
+		RelayClosed: RelayClosed(sw),
+		State:       SysOpText(sysop),
+	}
+	if c.Relays == nil {
+		c.Relays = []string{}
+	}
+	c.Live = c.State == "Run" || c.RelayClosed
+	if c.Live {
+		c.BusV = busV
+	}
+	return c
+}
+
 type ChainStatus struct {
 	Online     int      `json:"online"`
 	Total      int      `json:"total"`
@@ -81,9 +116,10 @@ type SystemSnapshot struct {
 	IP         string       `json:"ip"`
 	Port       int          `json:"port"`
 	Unit       int          `json:"unit"`
-	Identity   Identity     `json:"identity"`
-	Aggregate  Aggregate    `json:"aggregate"`
-	HeartbeatA int          `json:"heartbeatA"`
+	Identity   Identity       `json:"identity"`
+	Aggregate  Aggregate      `json:"aggregate"`
+	Combiner   CombinerStatus `json:"combiner"`
+	HeartbeatA int            `json:"heartbeatA"`
 	HeartbeatB int          `json:"heartbeatB"`
 	LinkLive   bool         `json:"linkLive"`
 	Strings    []StringInfo `json:"strings"`
@@ -272,6 +308,9 @@ func ReadSystem(cfg Config) (*SystemSnapshot, error) {
 			CellMaxV: round(float64(at(agg, 0x10))*0.001, 3),
 			CellMinV: round(float64(at(agg, 0x11))*0.001, 3),
 		}
+		// Combiner energization: system operation status (0x1141) + switching
+		// value (0x110F) both live in this same aggregate block.
+		snap.Combiner = buildCombiner(at(agg, AggSysOpOff), at(agg, AggSwitchOff), tv)
 	}
 
 	// Six strings.

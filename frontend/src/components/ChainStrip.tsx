@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Crown, Thermometer, Waypoints, BatteryCharging, Zap, Minus } from 'lucide-react'
+import { Crown, Thermometer, Waypoints, BatteryCharging, Zap, Minus, PlugZap, PowerOff } from 'lucide-react'
 import type { SystemSnapshot, StringInfo } from '../lib/api'
 import { statusMeta, fmt, clsx } from '../lib/ui'
 
@@ -177,7 +177,75 @@ function FlowBadge({ current }: { current: number }) {
   )
 }
 
-export function ChainStrip({ snap }: { snap: SystemSnapshot }) {
+function CombinerBar({
+  snap,
+  commissioning,
+  onEnergize,
+}: {
+  snap: SystemSnapshot
+  commissioning?: boolean
+  onEnergize?: () => void
+}) {
+  const c = snap.combiner
+  if (!c?.ok) {
+    // No live on-site combiner data (e.g. remote Solarman source). Explain why
+    // the energize control isn't available when the tech has commissioning on.
+    if (!commissioning) return null
+    return (
+      <div className="mb-4 flex items-center gap-2 rounded-xl border border-ink-700/60 bg-ink-900/40 px-3.5 py-2.5 text-[12px] text-slate-400">
+        <PowerOff className="h-4 w-4 shrink-0 text-slate-500" />
+        Combiner energization needs a live <b className="font-semibold text-slate-300">on-site (Modbus)</b> connection
+        to the BMS — it isn’t available from the Solarman remote source.
+      </div>
+    )
+  }
+  const live = c.live
+  const standby = c.state === 'Standby'
+  const theme = live ? 'border-good/30 bg-good/10' : 'border-warn/30 bg-warn/10'
+  const relays = (c.relays ?? []).join(', ')
+
+  return (
+    <div className={clsx('mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border px-3.5 py-2.5', theme)}>
+      <div className="flex items-center gap-2.5">
+        {live ? <PlugZap className="h-5 w-5 text-good" /> : <PowerOff className="h-5 w-5 text-warn" />}
+        <div>
+          <div className={clsx('text-sm font-semibold', live ? 'text-good' : 'text-warn')}>
+            {live
+              ? `Combiner LIVE — ${fmt.v(c.busV)} V on bus`
+              : standby
+                ? 'Combiner de-energized — Standby (relays open)'
+                : 'Combiner de-energized — relays open'}
+          </div>
+          <div className="mono text-[11px] text-slate-500">
+            {live
+              ? relays
+                ? `relays closed: ${relays}`
+                : 'main relay closed'
+              : 'waiting for Run to close the string relays'}
+          </div>
+        </div>
+      </div>
+      {commissioning && onEnergize && !live && (
+        <button
+          onClick={onEnergize}
+          className="inline-flex items-center gap-1.5 rounded-lg bg-crit px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-crit/90"
+        >
+          <Zap className="h-4 w-4" /> Energize combiner (Run)
+        </button>
+      )}
+    </div>
+  )
+}
+
+export function ChainStrip({
+  snap,
+  commissioning,
+  onEnergize,
+}: {
+  snap: SystemSnapshot
+  commissioning?: boolean
+  onEnergize?: () => void
+}) {
   const states = snap.strings
   const ok = snap.chain.online === 6
   const current = snap.aggregate.current ?? 0
@@ -201,6 +269,8 @@ export function ChainStrip({ snap }: { snap: SystemSnapshot }) {
         </div>
         <FlowBadge current={current} />
       </div>
+
+      <CombinerBar snap={snap} commissioning={commissioning} onEnergize={onEnergize} />
 
       <div className="flex items-start">
         {states.map((s, i) => (

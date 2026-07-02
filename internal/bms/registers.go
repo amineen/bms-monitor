@@ -30,6 +30,52 @@ const (
 	MaxCells   = 450
 )
 
+// Control & status registers (§3.3 Remote Control, §3.4 system info).
+//
+// WRITING is used by exactly ONE feature — the gated commissioning "Run" flow
+// in control.go. Writing 0x1094 closes the string relays and energizes the
+// combiner bus, so it is guarded by hard preconditions + operator interlocks.
+const (
+	RegSleep = 0x1090 // write 0xAA = sleep, 0x55 = wake
+	RegRun   = 0x1094 // write 0xAA = 'Run' — start paralleling into the combiner
+
+	CmdEffective uint16 = 0xAA // "effective" for command registers
+	CmdWake      uint16 = 0x55 // wake from sleep (0x1090)
+
+	AggSwitchOff = 0x0F // aggregate offset of Switching value (reg 0x110F)
+	AggSysOpOff  = 0x41 // aggregate offset of System operation status (reg 0x1141)
+
+	SysOpStandby = 0x11 // self-inspection done, relay OPEN (special MBMS firmware)
+	SysOpRun     = 0x22 // relay CLOSED -> combiner energized (special MBMS firmware)
+)
+
+// switchBits decodes the Switching value (0x110F / Appendix II). Bit0/Bit1 are
+// the main power relays: either closed means the string is tied to the bus.
+var switchBits = []bitLabel{
+	{0, "Discharge circuit"}, {1, "Charge circuit"}, {2, "Pre-charge circuit"},
+	{3, "Buzzer"}, {4, "Heating film"}, {5, "Current-limiting module"},
+	{6, "Fan"}, {7, "Dry contact in 1"},
+}
+
+// SwitchFlags returns the labels of the switch bits that are ON.
+func SwitchFlags(v uint16) []string { return DecodeFlags(v, switchBits) }
+
+// RelayClosed reports whether a main power relay (charge or discharge circuit)
+// is closed — i.e. the string is connected to the combiner bus.
+func RelayClosed(sw uint16) bool { return sw&0x03 != 0 }
+
+// SysOpText renders the System operation status register (special firmware).
+func SysOpText(v uint16) string {
+	switch int(v) {
+	case SysOpStandby:
+		return "Standby"
+	case SysOpRun:
+		return "Run"
+	default:
+		return "Unknown"
+	}
+}
+
 const (
 	SrcAgg = "ModBus-Protocol-Pylon-high-voltage-V1.38 section 3.4"
 	SrcStr = "ModBus-Protocol-Pylon-high-voltage-V1.38 section 3.6"

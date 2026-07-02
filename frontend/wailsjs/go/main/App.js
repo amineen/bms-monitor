@@ -10,6 +10,10 @@ export function ConnectSolarman() {
   return window['go']['main']['App']['ConnectSolarman']();
 }
 
+export function EvaluateRunGate(arg1, arg2) {
+  return window['go']['main']['App']['EvaluateRunGate'](arg1, arg2);
+}
+
 export function ExportExcel(arg1) {
   return window['go']['main']['App']['ExportExcel'](arg1);
 }
@@ -28,6 +32,10 @@ export function GetConfig() {
 
 export function GetRemoteConfig() {
   return window['go']['main']['App']['GetRemoteConfig']();
+}
+
+export function IssueRun(arg1, arg2, arg3, arg4) {
+  return window['go']['main']['App']['IssueRun'](arg1, arg2, arg3, arg4);
 }
 
 export function OpenSolarmanLogin() {

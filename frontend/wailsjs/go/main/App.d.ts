@@ -7,6 +7,8 @@ export function ClearSolarmanSession():Promise<void>;
 
 export function ConnectSolarman():Promise<string>;
 
+export function EvaluateRunGate(arg1:bms.SystemSnapshot,arg2:number):Promise<bms.RunGate>;
+
 export function ExportExcel(arg1:bms.Config):Promise<string>;
 
 export function ExportPDF(arg1:bms.SystemSnapshot):Promise<string>;
@@ -16,6 +18,8 @@ export function GatewayReachable(arg1:bms.Config):Promise<boolean>;
 export function GetConfig():Promise<bms.Config>;
 
 export function GetRemoteConfig():Promise<config.Remote>;
+
+export function IssueRun(arg1:bms.Config,arg2:number,arg3:boolean,arg4:boolean):Promise<bms.RunResult>;
 
 export function OpenSolarmanLogin():Promise<void>;
 

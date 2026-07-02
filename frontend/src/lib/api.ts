@@ -13,6 +13,8 @@ import {
   ClearSolarmanSession,
   GatewayReachable,
   ToggleMaximise,
+  EvaluateRunGate,
+  IssueRun,
 } from '../../wailsjs/go/main/App'
 import { bms, config } from '../../wailsjs/go/models'
 
@@ -23,6 +25,10 @@ export type Identity = bms.Identity
 export type Aggregate = bms.Aggregate
 export type ChainStatus = bms.ChainStatus
 export type HealthStatus = bms.HealthStatus
+export type CombinerStatus = bms.CombinerStatus
+export type RunGate = bms.RunGate
+export type GateCheck = bms.GateCheck
+export type RunResult = bms.RunResult
 export type Remote = config.Remote
 
 export type SourceMode = 'onsite' | 'remote'
@@ -42,4 +48,6 @@ export const api = {
   ClearSolarmanSession,
   GatewayReachable,
   ToggleMaximise,
+  EvaluateRunGate,
+  IssueRun,
 }

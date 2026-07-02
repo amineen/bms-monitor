@@ -7,6 +7,7 @@ import { SystemHero } from './components/SystemHero'
 import { ChainStrip } from './components/ChainStrip'
 import { StringCard } from './components/StringCard'
 import { StringDetail } from './components/StringDetail'
+import { RunModal } from './components/RunModal'
 
 const DEFAULT_CONFIG = { ip: '192.168.0.31', port: 502, unit: 1, timeout: 3 } as Config
 
@@ -110,6 +111,12 @@ export default function App() {
   const [remote, setRemote] = useState<Remote>({ token: '', stationId: 66280946 } as Remote)
   const [connecting, setConnecting] = useState(false)
 
+  const [commissioning, setCommissioning] = useState<boolean>(() => localStorage.getItem('commissioning') === '1')
+  const [runOpen, setRunOpen] = useState(false)
+  useEffect(() => {
+    localStorage.setItem('commissioning', commissioning ? '1' : '0')
+  }, [commissioning])
+
   const inFlight = useRef(false)
   const configRef = useRef(config)
   configRef.current = config
@@ -188,6 +195,14 @@ export default function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [snapshot])
+
+  // Switching source should immediately re-read from the new source (otherwise
+  // the old snapshot lingers — e.g. remote data still showing under On-site).
+  const onSetMode = (m: SourceMode) => {
+    setMode(m)
+    modeRef.current = m
+    read()
+  }
 
   const onExportExcel = async () => {
     setExporting(true)
@@ -272,12 +287,14 @@ export default function App() {
         config={config}
         onChange={setConfig}
         mode={mode}
-        setMode={setMode}
+        setMode={onSetMode}
         remote={remote}
         setRemote={setRemote}
         onConnect={onConnect}
         onClearSession={onClearSession}
         connecting={connecting}
+        commissioning={commissioning}
+        setCommissioning={setCommissioning}
         onMaximise={() => api.ToggleMaximise()}
         onRefresh={read}
         loading={loading}
@@ -313,7 +330,11 @@ export default function App() {
               </div>
             )}
             <SystemHero snap={snapshot} />
-            <ChainStrip snap={snapshot} />
+            <ChainStrip
+              snap={snapshot}
+              commissioning={commissioning && mode === 'onsite'}
+              onEnergize={() => setRunOpen(true)}
+            />
             <div>
               <div className="stat-label mb-2">Strings</div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -327,6 +348,16 @@ export default function App() {
       </main>
 
       <AnimatePresence>{selected && <StringDetail s={selected} onClose={() => setSelected(null)} />}</AnimatePresence>
+      <AnimatePresence>
+        {runOpen && snapshot && mode === 'onsite' && (
+          <RunModal
+            config={config}
+            snapshot={snapshot}
+            onClose={() => setRunOpen(false)}
+            onDone={() => read()}
+          />
+        )}
+      </AnimatePresence>
       <AnimatePresence>{toast && <Toast msg={toast.msg} ok={toast.ok} />}</AnimatePresence>
     </div>
   )

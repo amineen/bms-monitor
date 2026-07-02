@@ -1,4 +1,4 @@
-import { RefreshCw, Radio, CircleSlash, FileSpreadsheet, FileText, BatteryCharging, HardDrive, Cloud, LogIn, Loader2, LogOut, Maximize2 } from 'lucide-react'
+import { RefreshCw, Radio, CircleSlash, FileSpreadsheet, FileText, BatteryCharging, HardDrive, Cloud, LogIn, Loader2, LogOut, Maximize2, Wrench } from 'lucide-react'
 import type { Config, SystemSnapshot, SourceMode, Remote } from '../lib/api'
 import { clsx } from '../lib/ui'
 
@@ -12,6 +12,8 @@ interface Props {
   onConnect: () => void
   onClearSession: () => void
   connecting: boolean
+  commissioning: boolean
+  setCommissioning: (b: boolean) => void
   onMaximise: () => void
   onRefresh: () => void
   loading: boolean
@@ -168,6 +170,24 @@ export function TopBar(props: Props) {
       </button>
 
       <div className="ml-auto flex items-end gap-5">
+        {props.mode === 'onsite' && (
+          <label className="flex flex-col gap-1">
+            <span className="stat-label">Commissioning</span>
+            <button
+              onClick={() => props.setCommissioning(!props.commissioning)}
+              title="Enable commissioning controls (combiner energization). Writes to the BMS."
+              className={clsx(
+                'inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition',
+                props.commissioning
+                  ? 'border-warn/50 bg-warn/10 text-warn'
+                  : 'border-ink-700 bg-ink-900/80 text-slate-400 hover:text-slate-200',
+              )}
+            >
+              <Wrench className="h-3.5 w-3.5" />
+              {props.commissioning ? 'On' : 'Off'}
+            </button>
+          </label>
+        )}
         <label className="flex flex-col gap-1">
           <span className="stat-label">Auto-refresh</span>
           <div className="flex items-center gap-2">

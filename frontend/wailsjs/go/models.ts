@@ -50,6 +50,32 @@ export namespace bms {
 	        this.states = source["states"];
 	    }
 	}
+	export class CombinerStatus {
+	    ok: boolean;
+	    live: boolean;
+	    state: string;
+	    sysOpRaw: number;
+	    switching: number;
+	    relays: string[];
+	    relayClosed: boolean;
+	    busV: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new CombinerStatus(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.ok = source["ok"];
+	        this.live = source["live"];
+	        this.state = source["state"];
+	        this.sysOpRaw = source["sysOpRaw"];
+	        this.switching = source["switching"];
+	        this.relays = source["relays"];
+	        this.relayClosed = source["relayClosed"];
+	        this.busV = source["busV"];
+	    }
+	}
 	export class Config {
 	    ip: string;
 	    port: number;
@@ -66,6 +92,24 @@ export namespace bms {
 	        this.port = source["port"];
 	        this.unit = source["unit"];
 	        this.timeout = source["timeout"];
+	    }
+	}
+	export class GateCheck {
+	    label: string;
+	    pass: boolean;
+	    detail: string;
+	    hard: boolean;
+	
+	    static createFrom(source: any = {}) {
+	        return new GateCheck(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.label = source["label"];
+	        this.pass = source["pass"];
+	        this.detail = source["detail"];
+	        this.hard = source["hard"];
 	    }
 	}
 	export class HealthStatus {
@@ -101,6 +145,86 @@ export namespace bms {
 	        this.firmware = source["firmware"];
 	        this.build = source["build"];
 	    }
+	}
+	export class RunGate {
+	    ok: boolean;
+	    hardOk: boolean;
+	    checks: GateCheck[];
+	    reasons: string[];
+	
+	    static createFrom(source: any = {}) {
+	        return new RunGate(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.ok = source["ok"];
+	        this.hardOk = source["hardOk"];
+	        this.checks = this.convertValues(source["checks"], GateCheck);
+	        this.reasons = source["reasons"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class RunResult {
+	    written: boolean;
+	    woke: boolean;
+	    stateBefore: string;
+	    stateAfter: string;
+	    live: boolean;
+	    busV: number;
+	    gate: RunGate;
+	    message: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new RunResult(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.written = source["written"];
+	        this.woke = source["woke"];
+	        this.stateBefore = source["stateBefore"];
+	        this.stateAfter = source["stateAfter"];
+	        this.live = source["live"];
+	        this.busV = source["busV"];
+	        this.gate = this.convertValues(source["gate"], RunGate);
+	        this.message = source["message"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
 	}
 	export class StringInfo {
 	    index: number;
@@ -183,6 +307,7 @@ export namespace bms {
 	    unit: number;
 	    identity: Identity;
 	    aggregate: Aggregate;
+	    combiner: CombinerStatus;
 	    heartbeatA: number;
 	    heartbeatB: number;
 	    linkLive: boolean;
@@ -203,6 +328,7 @@ export namespace bms {
 	        this.unit = source["unit"];
 	        this.identity = this.convertValues(source["identity"], Identity);
 	        this.aggregate = this.convertValues(source["aggregate"], Aggregate);
+	        this.combiner = this.convertValues(source["combiner"], CombinerStatus);
 	        this.heartbeatA = source["heartbeatA"];
 	        this.heartbeatB = source["heartbeatB"];
 	        this.linkLive = source["linkLive"];
