@@ -52,3 +52,32 @@ export function balanceMeta(mv?: number): { color: string; label: string } {
 export function clsx(...parts: (string | false | null | undefined)[]): string {
   return parts.filter(Boolean).join(' ')
 }
+
+// A driver Metric ({ok, value}) -> display string. All three plant drivers
+// share the same shape.
+export interface OkMetric {
+  ok: boolean
+  value: number
+}
+
+export function metric(m: OkMetric | undefined, dec = 1, unit = ''): string {
+  if (!m?.ok) return dash
+  const v = m.value.toFixed(dec)
+  return unit ? `${v} ${unit}` : v
+}
+
+// Watts -> kW display.
+export function metricKW(m: OkMetric | undefined, dec = 1): string {
+  if (!m?.ok) return dash
+  return `${(m.value / 1000).toFixed(dec)} kW`
+}
+
+export function kw(n: number | undefined, dec = 1): string {
+  return n == null ? dash : `${n.toFixed(dec)} kW`
+}
+
+export const severityTheme: Record<string, { text: string; dot: string }> = {
+  info: { text: 'text-slate-300', dot: 'bg-accent' },
+  warn: { text: 'text-warn', dot: 'bg-warn' },
+  crit: { text: 'text-crit', dot: 'bg-crit' },
+}

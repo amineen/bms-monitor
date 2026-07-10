@@ -2,10 +2,17 @@ package bms
 
 import (
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/goburrow/modbus"
 )
+
+// gatewayMu serializes every connection to the BMS gateway across goroutines.
+// With the background datastore logger and the UI both able to trigger reads,
+// two simultaneous fresh connections to the RS485->TCP converter would risk
+// the same cross-talk seen with ARC — one-in-flight, always.
+var gatewayMu sync.Mutex
 
 // Config holds connection parameters for the BMS gateway.
 type Config struct {
@@ -47,6 +54,8 @@ func wordsFromBytes(b []byte) []uint16 {
 // read is the only reliable fix observed. CALLERS MUST KEEP READS SEQUENTIAL —
 // never read concurrently on the same bus.
 func readBaseFresh(cfg Config, start, count int) ([]uint16, error) {
+	gatewayMu.Lock()
+	defer gatewayMu.Unlock()
 	handler := modbus.NewTCPClientHandler(cfg.addr())
 	handler.Timeout = cfg.timeout()
 	handler.SlaveId = byte(unitOr1(cfg.Unit))

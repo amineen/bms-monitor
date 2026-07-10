@@ -8,21 +8,46 @@ import (
 
 	"bms-monitor/internal/bms"
 	"bms-monitor/internal/config"
+	"bms-monitor/internal/datastore"
+	"bms-monitor/internal/plant"
 	"bms-monitor/internal/solarman"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App is the Wails-bound application struct. Its exported methods are callable
-// from the React frontend via generated, typed bindings. All BMS access is
-// read-only.
+// from the React frontend via generated, typed bindings. All device access is
+// read-only (the single exception is the gated Pylontech Run below).
 type App struct {
-	ctx context.Context
+	ctx     context.Context
+	monitor *plant.Monitor    // plant poll state (stale cache + event timeline)
+	store   *datastore.Store  // SQLite time-series log
+	logger  *datastore.Logger // background logging service
 }
 
-func NewApp() *App { return &App{} }
+func NewApp() *App { return &App{monitor: plant.NewMonitor()} }
 
-func (a *App) startup(ctx context.Context) { a.ctx = ctx }
+func (a *App) startup(ctx context.Context) {
+	a.ctx = ctx
+	// Open the local datastore and start the background logger. A datastore
+	// failure must never block the monitor UI — log-less operation is fine.
+	if store, err := datastore.Open(datastore.DefaultPath()); err == nil {
+		a.store = store
+		a.logger = datastore.NewLogger(store, a.monitor)
+		// Persist every timeline event exactly once, as it is detected.
+		a.monitor.SetEventSink(func(evts []plant.Event) { _ = store.InsertEvents(evts) })
+		a.logger.Start(config.LoadLogging())
+	}
+}
+
+func (a *App) shutdown(_ context.Context) {
+	if a.logger != nil {
+		a.logger.Stop()
+	}
+	if a.store != nil {
+		_ = a.store.Close()
+	}
+}
 
 // GetConfig returns the saved connection settings (with TEC defaults).
 func (a *App) GetConfig() bms.Config { return config.Load() }
@@ -42,6 +67,10 @@ func (a *App) ReadSystem(cfg bms.Config) (*bms.SystemSnapshot, error) {
 	snap, err := bms.ReadSystem(c)
 	if err == nil {
 		_ = config.Save(c)
+		a.monitor.IngestBatteryEvents(snap) // per-string protection alarm events
+		if a.logger != nil {
+			a.logger.IngestBattery(snap) // reuse this read for the datastore tick
+		}
 	}
 	return snap, err
 }
@@ -62,6 +91,101 @@ func (a *App) IssueRun(cfg bms.Config, maxSpreadV float64, autoWake, force bool)
 	return bms.IssueRun(config.WithDefaults(cfg), bms.RunOptions{
 		MaxSpreadV: maxSpreadV, AutoWake: autoWake, Force: force,
 	})
+}
+
+// ---- Plant-wide monitoring (read-only) ----
+
+// GetDevices returns the plant device registry (user-edited if saved,
+// otherwise the bundled Totota network list).
+func (a *App) GetDevices() []plant.Device { return plant.LoadDevices() }
+
+// SaveDevices persists registry edits (enable/disable, IPs, added devices).
+func (a *App) SaveDevices(devs []plant.Device) error { return plant.SaveDevices(devs) }
+
+// ResetDevices restores the bundled Totota registry.
+func (a *App) ResetDevices() ([]plant.Device, error) {
+	if err := plant.ResetDevices(); err != nil {
+		return nil, err
+	}
+	return plant.LoadDevices(), nil
+}
+
+// ReadPlant performs one sequential, read-only round-robin over every enabled
+// plant device (BMS, OzTeks, SMAs, genset) and returns the unified snapshot
+// with health, insights, and the troubleshooting timeline. Reads to the
+// shared .41 OzTek gateway are strictly serialized.
+func (a *App) ReadPlant() (*plant.Snapshot, error) {
+	snap := a.monitor.Read(plant.LoadDevices(), config.LoadPolling().PollSharedBus)
+	if a.logger != nil {
+		a.logger.IngestPlant(snap) // reuse this read for the datastore tick
+	}
+	return snap, nil
+}
+
+// GetPolling returns the polling policy (shared-bus master on/off).
+func (a *App) GetPolling() config.Polling { return config.LoadPolling() }
+
+// SetPolling persists the polling policy. Enabling PollSharedBus makes the app
+// a second Modbus master on ARC's shared OzTek RS485 bus — an explicit,
+// operator-authorized action (off by default). Every change is written to the
+// event timeline/datastore as an audit entry.
+func (a *App) SetPolling(p config.Polling) config.Polling {
+	old := config.LoadPolling()
+	_ = config.SavePolling(p)
+	if old.PollSharedBus != p.PollSharedBus {
+		if p.PollSharedBus {
+			a.monitor.AddEvent("app", "Plant Monitor", plant.SevWarn,
+				"OzTek shared-bus polling ENABLED by operator — app is now a second master on ARC's bus")
+		} else {
+			a.monitor.AddEvent("app", "Plant Monitor", plant.SevInfo,
+				"OzTek shared-bus polling disabled — app no longer touches ARC's bus")
+		}
+	}
+	return p
+}
+
+// ---- Datastore (SQLite telemetry log) ----
+
+// GetLogging returns the logging configuration, service state, and DB stats.
+func (a *App) GetLogging() datastore.Status {
+	if a.logger == nil {
+		return datastore.Status{Config: config.LoadLogging()}
+	}
+	return a.logger.Status()
+}
+
+// SetLogging applies + persists a new logging configuration (interval,
+// retention, on/off) and returns the updated status.
+func (a *App) SetLogging(cfg config.Logging) datastore.Status {
+	cfg = config.WithLoggingDefaults(cfg)
+	_ = config.SaveLogging(cfg)
+	if a.logger != nil {
+		a.logger.SetConfig(cfg)
+	}
+	return a.GetLogging()
+}
+
+// ExportLogs writes the logged history to an Excel workbook via a save
+// dialog. scope: system | battery | oztek | pv | genset | events.
+// sinceHours limits the range (0 = everything). Returns the saved path
+// ("" if cancelled).
+func (a *App) ExportLogs(scope string, sinceHours int) (string, error) {
+	if a.store == nil {
+		return "", fmt.Errorf("datastore is not available")
+	}
+	name := fmt.Sprintf("tec-%s-logs-%s.xlsx", scope, time.Now().Format("2006-01-02"))
+	path, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{
+		Title:           "Export logged history",
+		DefaultFilename: name,
+		Filters:         []runtime.FileFilter{{DisplayName: "Excel Workbook (*.xlsx)", Pattern: "*.xlsx"}},
+	})
+	if err != nil || path == "" {
+		return "", err
+	}
+	if err := a.store.ExportXLSX(path, scope, sinceHours); err != nil {
+		return "", err
+	}
+	return path, nil
 }
 
 // ---- Remote (Solarman) source ----

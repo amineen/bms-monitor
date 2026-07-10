@@ -18,6 +18,10 @@ export function ExportExcel(arg1) {
   return window['go']['main']['App']['ExportExcel'](arg1);
 }
 
+export function ExportLogs(arg1, arg2) {
+  return window['go']['main']['App']['ExportLogs'](arg1, arg2);
+}
+
 export function ExportPDF(arg1) {
   return window['go']['main']['App']['ExportPDF'](arg1);
 }
@@ -28,6 +32,18 @@ export function GatewayReachable(arg1) {
 
 export function GetConfig() {
   return window['go']['main']['App']['GetConfig']();
+}
+
+export function GetDevices() {
+  return window['go']['main']['App']['GetDevices']();
+}
+
+export function GetLogging() {
+  return window['go']['main']['App']['GetLogging']();
+}
+
+export function GetPolling() {
+  return window['go']['main']['App']['GetPolling']();
 }
 
 export function GetRemoteConfig() {
@@ -42,6 +58,10 @@ export function OpenSolarmanLogin() {
   return window['go']['main']['App']['OpenSolarmanLogin']();
 }
 
+export function ReadPlant() {
+  return window['go']['main']['App']['ReadPlant']();
+}
+
 export function ReadRemote(arg1, arg2) {
   return window['go']['main']['App']['ReadRemote'](arg1, arg2);
 }
@@ -50,8 +70,24 @@ export function ReadSystem(arg1) {
   return window['go']['main']['App']['ReadSystem'](arg1);
 }
 
+export function ResetDevices() {
+  return window['go']['main']['App']['ResetDevices']();
+}
+
 export function SaveConfig(arg1) {
   return window['go']['main']['App']['SaveConfig'](arg1);
+}
+
+export function SaveDevices(arg1) {
+  return window['go']['main']['App']['SaveDevices'](arg1);
+}
+
+export function SetLogging(arg1) {
+  return window['go']['main']['App']['SetLogging'](arg1);
+}
+
+export function SetPolling(arg1) {
+  return window['go']['main']['App']['SetPolling'](arg1);
 }
 
 export function TestConnection(arg1) {

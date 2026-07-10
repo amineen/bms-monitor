@@ -18,7 +18,7 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:     "Pylontech BMS Monitor",
+		Title:     "TEC Plant Monitor",
 		Width:     1320,
 		Height:    900,
 		MinWidth:  1024,
@@ -28,6 +28,7 @@ func main() {
 		},
 		BackgroundColour: &options.RGBA{R: 9, G: 12, B: 20, A: 1},
 		OnStartup:        app.startup,
+		OnShutdown:       app.shutdown,
 		// A non-nil Mac block is required for the green traffic-light (zoom)
 		// button to be enabled — Wails leaves it disabled when Mac is nil.
 		Mac: &mac.Options{

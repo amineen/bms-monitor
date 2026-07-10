@@ -1,0 +1,15 @@
+{
+  "site": "TEC Totota Minigrid",
+  "network": "192.168.0.0/24 (ARC LAN)",
+  "updated": "2026-07-06",
+  "devices": [
+    { "id": "bms", "name": "Pylontech BMS", "kind": "bms", "host": "192.168.0.31", "port": 502, "unit": 1, "enabled": true, "notes": "Force-H3, 6 strings (BMS2)" },
+    { "id": "oztek1", "name": "OzTek #1", "kind": "oztek", "host": "192.168.0.41", "port": 502, "unit": 1, "enabled": true, "sharedBus": true, "notes": "OZPCS-RS40 on the shared RS485 bus ARC controls (INV1)" },
+    { "id": "oztek2", "name": "OzTek #2", "kind": "oztek", "host": "192.168.0.41", "port": 502, "unit": 2, "enabled": true, "sharedBus": true, "notes": "OZPCS-RS40 on the shared RS485 bus ARC controls (INV2)" },
+    { "id": "oztek3", "name": "OzTek #3", "kind": "oztek", "host": "192.168.0.41", "port": 502, "unit": 3, "enabled": false, "sharedBus": true, "notes": "BATT#3 — not wired yet; enable when installed (INV3)" },
+    { "id": "pv1", "name": "SMA PV1", "kind": "sma", "host": "192.168.0.51", "port": 502, "unit": 3, "enabled": true, "notes": "Sunny Tripower 25000TL-30" },
+    { "id": "pv2", "name": "SMA PV2", "kind": "sma", "host": "192.168.0.52", "port": 502, "unit": 3, "enabled": true, "notes": "Sunny Tripower 25000TL-30" },
+    { "id": "pv3", "name": "SMA PV3", "kind": "sma", "host": "192.168.0.53", "port": 502, "unit": 3, "enabled": true, "notes": "Sunny Tripower 25000TL-30" },
+    { "id": "gen1", "name": "Genset", "kind": "dse", "host": "192.168.0.71", "port": 502, "unit": 1, "enabled": true, "notes": "DSE8610 MKII · Perkins 135 kVA (GEN1)" }
+  ]
+}

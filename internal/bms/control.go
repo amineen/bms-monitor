@@ -25,6 +25,8 @@ import (
 // writeSingleRegisterFresh opens a fresh TCP connection and writes one holding
 // register via FC06, then closes it (same connection discipline as reads).
 func writeSingleRegisterFresh(cfg Config, addr, value uint16) error {
+	gatewayMu.Lock()
+	defer gatewayMu.Unlock()
 	handler := modbus.NewTCPClientHandler(cfg.addr())
 	handler.Timeout = cfg.timeout()
 	handler.SlaveId = byte(unitOr1(cfg.Unit))

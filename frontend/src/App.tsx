@@ -1,13 +1,27 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Loader2, WifiOff, AlertTriangle, CheckCircle2, Cloud, LogIn } from 'lucide-react'
-import { api, type Config, type SystemSnapshot, type StringInfo, type SourceMode, type Remote } from './lib/api'
+import {
+  api,
+  type Config,
+  type SystemSnapshot,
+  type StringInfo,
+  type SourceMode,
+  type ViewMode,
+  type Remote,
+  type PlantSnapshot,
+  type LoggingStatus,
+  type LoggingConfig,
+  type PollingConfig,
+} from './lib/api'
 import { TopBar } from './components/TopBar'
 import { SystemHero } from './components/SystemHero'
 import { ChainStrip } from './components/ChainStrip'
 import { StringCard } from './components/StringCard'
 import { StringDetail } from './components/StringDetail'
 import { RunModal } from './components/RunModal'
+import { ExportLogsModal } from './components/ExportLogsModal'
+import { PlantView } from './components/plant/PlantView'
 
 const DEFAULT_CONFIG = { ip: '192.168.0.31', port: 502, unit: 1, timeout: 3 } as Config
 
@@ -111,6 +125,35 @@ export default function App() {
   const [remote, setRemote] = useState<Remote>({ token: '', stationId: 66280946 } as Remote)
   const [connecting, setConnecting] = useState(false)
 
+  // Plant view (on-site only): unified poll across all ARC-network devices.
+  const [view, setView] = useState<ViewMode>(() => (localStorage.getItem('view') as ViewMode) || 'plant')
+  const [plantSnap, setPlantSnap] = useState<PlantSnapshot | null>(null)
+  const [plantHistory, setPlantHistory] = useState<PlantSnapshot[]>([])
+  const [plantLoading, setPlantLoading] = useState(false)
+  useEffect(() => {
+    localStorage.setItem('view', view)
+  }, [view])
+
+  // Datastore logging status (SQLite telemetry log in the Go backend).
+  const [logging, setLogging] = useState<LoggingStatus | null>(null)
+  const [exportLogsOpen, setExportLogsOpen] = useState(false)
+
+  // Polling policy: whether we master ARC's shared OzTek bus (default off).
+  const [polling, setPolling] = useState<PollingConfig>({ pollSharedBus: false } as PollingConfig)
+  useEffect(() => {
+    api.GetPolling().then(setPolling).catch(() => {})
+  }, [])
+  useEffect(() => {
+    api.GetLogging().then(setLogging).catch(() => {})
+  }, [])
+  const onSetLogging = async (cfg: LoggingConfig) => {
+    try {
+      setLogging(await api.SetLogging(cfg))
+    } catch {
+      /* backend without datastore keeps running log-less */
+    }
+  }
+
   const [commissioning, setCommissioning] = useState<boolean>(() => localStorage.getItem('commissioning') === '1')
   const [runOpen, setRunOpen] = useState(false)
   useEffect(() => {
@@ -118,12 +161,15 @@ export default function App() {
   }, [commissioning])
 
   const inFlight = useRef(false)
+  const plantInFlight = useRef(false)
   const configRef = useRef(config)
   configRef.current = config
   const modeRef = useRef(mode)
   modeRef.current = mode
   const remoteRef = useRef(remote)
   remoteRef.current = remote
+  const viewRef = useRef(view)
+  viewRef.current = view
 
   const showToast = (msg: string, ok = true) => {
     setToast({ msg, ok })
@@ -153,6 +199,50 @@ export default function App() {
     }
   }, [])
 
+  // One sequential round-robin over every enabled plant device. The backend
+  // serializes the shared .41 OzTek bus; unreachable devices fail fast.
+  const readPlant = useCallback(async () => {
+    if (plantInFlight.current) return
+    plantInFlight.current = true
+    setPlantLoading(true)
+    try {
+      const snap = await api.ReadPlant()
+      setPlantSnap(snap)
+      // Keep a session ring of snapshots so detail pages can draw trends.
+      setPlantHistory((h) => {
+        const next = [...h, snap]
+        return next.length > 180 ? next.slice(next.length - 180) : next
+      })
+      setLastUpdated(new Date())
+    } catch {
+      /* per-device errors are inside the snapshot; a throw here is unexpected */
+    } finally {
+      setPlantLoading(false)
+      plantInFlight.current = false
+    }
+  }, [])
+
+  // Refresh whatever the active view shows.
+  const refresh = useCallback(() => {
+    if (viewRef.current === 'plant' && modeRef.current === 'onsite') readPlant()
+    else read()
+  }, [read, readPlant])
+
+  // Toggle whether we master ARC's shared OzTek bus, then re-read the plant so
+  // the change (poll off ↔ on) reflects immediately.
+  const onSetPollShared = useCallback(
+    async (b: boolean) => {
+      try {
+        const p = await api.SetPolling({ pollSharedBus: b } as PollingConfig)
+        setPolling(p)
+        if (viewRef.current === 'plant') readPlant()
+      } catch {
+        /* ignore */
+      }
+    },
+    [readPlant],
+  )
+
   // load saved config, then read once
   // On startup: load saved config, then auto-pick the source — if the on-site
   // gateway is reachable use On-site, otherwise fall back to Remote when a saved
@@ -176,16 +266,21 @@ export default function App() {
       }
       setMode(m)
       modeRef.current = m
-      read()
+      // Remote (Solarman) covers only the battery — force the battery view.
+      if (m === 'remote' && viewRef.current === 'plant') {
+        setView('battery')
+        viewRef.current = 'battery'
+      }
+      refresh()
     })()
-  }, [read])
+  }, [read, refresh])
 
-  // auto-refresh
+  // auto-refresh (whichever view is active)
   useEffect(() => {
     if (!auto) return
-    const id = setInterval(() => read(), intervalSec * 1000)
+    const id = setInterval(() => refresh(), intervalSec * 1000)
     return () => clearInterval(id)
-  }, [auto, intervalSec, read])
+  }, [auto, intervalSec, refresh])
 
   // keep the open detail in sync with new data
   useEffect(() => {
@@ -201,7 +296,20 @@ export default function App() {
   const onSetMode = (m: SourceMode) => {
     setMode(m)
     modeRef.current = m
-    read()
+    if (m === 'remote' && viewRef.current === 'plant') {
+      // Solarman reaches only the battery — the plant needs the ARC LAN.
+      setView('battery')
+      viewRef.current = 'battery'
+    }
+    refresh()
+  }
+
+  // Switching view triggers a read for that view if it has no data yet.
+  const onSetView = (v: ViewMode) => {
+    setView(v)
+    viewRef.current = v
+    if (v === 'plant' && !plantSnap) readPlant()
+    if (v === 'battery' && !snapshot) read()
   }
 
   const onExportExcel = async () => {
@@ -279,13 +387,18 @@ export default function App() {
     showToast('Signed out of Solarman — Connect to log in again')
   }
 
-  const connected = !!snapshot && !error
+  const plantActive = view === 'plant' && mode === 'onsite'
+  const connected = plantActive
+    ? !!plantSnap && plantSnap.health.level !== 'offline'
+    : !!snapshot && !error
 
   return (
     <div className="flex h-screen flex-col">
       <TopBar
         config={config}
         onChange={setConfig}
+        view={view}
+        setView={onSetView}
         mode={mode}
         setMode={onSetMode}
         remote={remote}
@@ -295,9 +408,12 @@ export default function App() {
         connecting={connecting}
         commissioning={commissioning}
         setCommissioning={setCommissioning}
+        logging={logging}
+        onSetLogging={onSetLogging}
+        onExportLogs={() => setExportLogsOpen(true)}
         onMaximise={() => api.ToggleMaximise()}
-        onRefresh={read}
-        loading={loading}
+        onRefresh={refresh}
+        loading={plantActive ? plantLoading : loading}
         lastUpdated={lastUpdated}
         auto={auto}
         setAuto={setAuto}
@@ -311,7 +427,16 @@ export default function App() {
       />
 
       <main className="flex-1 overflow-y-auto px-6 py-5">
-        {!snapshot ? (
+        {plantActive ? (
+          <PlantView
+            snap={plantSnap}
+            history={plantHistory}
+            loading={plantLoading}
+            onOpenBattery={() => onSetView('battery')}
+            pollSharedBus={polling.pollSharedBus}
+            onSetPollSharedBus={onSetPollShared}
+          />
+        ) : !snapshot ? (
           <OfflineState
             ip={config.ip}
             error={error ?? ''}
@@ -356,6 +481,11 @@ export default function App() {
             onClose={() => setRunOpen(false)}
             onDone={() => read()}
           />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {exportLogsOpen && (
+          <ExportLogsModal onClose={() => setExportLogsOpen(false)} onDone={(msg, ok) => showToast(msg, ok)} />
         )}
       </AnimatePresence>
       <AnimatePresence>{toast && <Toast msg={toast.msg} ok={toast.ok} />}</AnimatePresence>
