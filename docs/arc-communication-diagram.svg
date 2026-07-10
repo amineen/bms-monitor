@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="1010" viewBox="0 0 1680 1010" font-family="-apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .zone   { fill:#F1F5F9; stroke:#CBD5E1; stroke-width:1.5; }
+      .zlabel { fill:#64748B; font-size:12px; font-weight:700; letter-spacing:2.5px; }
+      .box    { fill:#FFFFFF; stroke:#94A3B8; stroke-width:1.5; }
+      .boxgrey{ fill:#F8FAFC; stroke:#CBD5E1; stroke-width:1.2; stroke-dasharray:5 4; }
+      .t1     { fill:#0F172A; font-size:14px; font-weight:600; }
+      .t2     { fill:#475569; font-size:11px; }
+      .t3     { fill:#64748B; font-size:10.5px; }
+      .ip     { fill:#0369A1; font-size:12px; font-weight:700; font-family:ui-monospace, Menlo, monospace; }
+      .eth    { stroke:#475569; stroke-width:2; fill:none; }
+      .ser    { stroke:#D97706; stroke-width:2.5; fill:none; stroke-dasharray:8 5; }
+      .net    { stroke:#0284C7; stroke-width:1.8; fill:none; stroke-dasharray:2.5 4; }
+      .mech   { stroke:#94A3B8; stroke-width:2; fill:none; stroke-dasharray:3 4; }
+      .lbl    { fill:#64748B; font-size:10px; font-family:ui-monospace, Menlo, monospace; }
+    </style>
+  </defs>
+
+  <rect width="1680" height="1010" fill="#FFFFFF"/>
+
+  <!-- HEADER -->
+  <text x="40" y="52" fill="#0F172A" font-size="26" font-weight="700">TEC Totota Minigrid — ARC Communication Architecture</text>
+  <text x="40" y="80" class="t2" font-size="13">ARC (Ageto Remote Controller) is the single Modbus master of the plant · LAN 192.168.0.0/24 · all endpoints Modbus TCP :502 · Totota Electric Cooperative, Liberia · 2026-07-10</text>
+
+  <!-- LEGEND -->
+  <rect x="1150" y="18" width="490" height="90" class="zone" rx="12"/>
+  <line x1="1170" y1="34" x2="1215" y2="34" class="eth"/>
+  <text x="1225" y="38" class="t2">Ethernet (Modbus TCP :502)</text>
+  <line x1="1170" y1="55" x2="1215" y2="55" class="ser"/>
+  <text x="1225" y="59" class="t2">RS485 serial (Modbus RTU)</text>
+  <line x1="1170" y1="76" x2="1215" y2="76" class="net"/>
+  <text x="1225" y="80" class="t2">Internet / VPN</text>
+  <line x1="1170" y1="97" x2="1215" y2="97" class="mech"/>
+  <text x="1225" y="101" class="t2">Hardwired I/O (in service, no network)</text>
+  <rect x="1420" y="27" width="14" height="14" rx="4" fill="#05966915" stroke="#059669"/>
+  <text x="1442" y="39" class="t2">ARC CONTROLS (read + write)</text>
+  <rect x="1420" y="55" width="14" height="14" rx="4" fill="#0284C715" stroke="#0284C7"/>
+  <text x="1442" y="67" class="t2">ARC MONITORS (read only)</text>
+  <rect x="1420" y="83" width="14" height="14" rx="4" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="4 3"/>
+  <text x="1442" y="95" class="t2">Not yet in service</text>
+
+  <!-- CONTROL ZONE -->
+  <rect x="40" y="120" width="1600" height="290" class="zone" rx="14"/>
+  <text x="60" y="148" class="zlabel">CONTROL ROOM</text>
+
+  <!-- Talk2M -->
+  <rect x="90" y="170" width="250" height="80" class="box" rx="10"/>
+  <text x="108" y="194" class="t1">Ageto remote support</text>
+  <text x="108" y="212" class="t2">Talk2M VPN cloud · eCatcher clients</text>
+  <text x="108" y="228" class="t3">vendor access into the whole ARC LAN</text>
+
+  <!-- eWon -->
+  <rect x="130" y="290" width="230" height="92" class="box" rx="10"/>
+  <text x="148" y="314" class="ip">.21</text>
+  <text x="185" y="314" class="t1">eWon Flexy 205</text>
+  <text x="148" y="332" class="t2">VPN gateway to Talk2M</text>
+  <text x="148" y="348" class="t2">WAN 192.168.1.100</text>
+  <path class="net" d="M245 290 V250"/>
+
+  <!-- ARC -->
+  <rect x="560" y="170" width="400" height="130" class="box" rx="12"/>
+  <text x="582" y="200" class="ip" font-size="14">.20</text>
+  <text x="625" y="200" fill="#0F172A" font-size="17" font-weight="700">Ageto Remote Controller (ARC)</text>
+  <text x="582" y="222" class="t2">Moxa MC-1112 IPC · continuous polling + dispatch loop</text>
+  <text x="582" y="238" class="t2">balances PV / BESS / genset against the site load</text>
+  <rect x="582" y="252" width="230" height="26" rx="7" fill="#05966912" stroke="#05966960"/>
+  <circle cx="597" cy="265" r="4" fill="#059669"/>
+  <text x="608" y="269" fill="#059669" font-size="11.5" font-weight="700">PRIMARY &amp; ONLY MODBUS MASTER</text>
+
+  <!-- switch -->
+  <rect x="1120" y="200" width="280" height="80" class="box" rx="10"/>
+  <text x="1140" y="226" class="t1">Moxa Ethernet switch — ARC panel</text>
+  <text x="1140" y="244" class="t2">LAN core · all field links terminate here</text>
+  <text x="1140" y="260" class="t3">(+ SDS-3008-T added for commissioning access)</text>
+
+  <path class="eth" d="M960 235 H1120"/>
+  <path class="eth" d="M245 382 V420 H1180 V280"/>
+  <circle cx="245" cy="382" r="4" fill="#475569"/>
+
+  <!-- FIELD ZONE -->
+  <rect x="40" y="530" width="1600" height="440" class="zone" rx="14"/>
+  <text x="60" y="558" class="zlabel">FIELD ENDPOINTS (AS ARC SEES THEM)</text>
+
+  <!-- fan-out: switch -> each field group, entering the zone and landing on
+       the first device box of each column (drawn under the group badges) -->
+  <path class="eth" d="M1200 280 V440 H260 V616"/>
+  <path class="eth" d="M1230 280 V460 H660 V616"/>
+  <path class="eth" d="M1260 280 V480 H1060 V616"/>
+  <path class="eth" d="M1290 280 V500 H1450 V616"/>
+  <circle cx="260" cy="616" r="4" fill="#475569"/>
+  <circle cx="660" cy="616" r="4" fill="#475569"/>
+  <circle cx="1060" cy="616" r="4" fill="#475569"/>
+  <circle cx="1450" cy="616" r="4" fill="#475569"/>
+  <text x="300" y="432" class="lbl">Modbus TCP :502</text>
+
+  <!-- Col 1: OzTek CONTROL -->
+  <rect x="70" y="572" width="380" height="30" rx="8" fill="#E4F4ED" stroke="#05966950"/>
+  <text x="84" y="592" fill="#059669" font-size="11.5" font-weight="700">BATTERY INVERTERS — ARC CONTROLS (read + write)</text>
+
+  <rect x="70" y="616" width="380" height="76" class="box" rx="10"/>
+  <text x="88" y="640" class="ip">.41</text>
+  <text x="126" y="640" class="t1">USR-TCP232-410s RS485↔TCP</text>
+  <text x="88" y="658" class="t2">Modbus TCP :502 → RTU 57600 8N1 · half-duplex</text>
+  <text x="88" y="674" class="t2">ONE multidrop bus — ARC is its only master</text>
+
+  <rect x="70" y="732" width="180" height="72" class="box" rx="10"/>
+  <text x="84" y="754" class="t1" font-size="13">OzTek #1 · id 1</text>
+  <text x="84" y="771" class="t2">OZPCS-RS40 40 kVA</text>
+  <text x="84" y="786" class="t3">heartbeat · start/stop · limits</text>
+
+  <rect x="270" y="732" width="180" height="72" class="box" rx="10"/>
+  <text x="284" y="754" class="t1" font-size="13">OzTek #2 · id 2</text>
+  <text x="284" y="771" class="t2">OZPCS-RS40 40 kVA</text>
+  <text x="284" y="786" class="t3">heartbeat · start/stop · limits</text>
+
+  <rect x="170" y="824" width="180" height="60" class="boxgrey" rx="10"/>
+  <text x="184" y="846" fill="#64748B" font-size="13" font-weight="600">OzTek #3 · id 3</text>
+  <text x="184" y="863" class="t3">BATT#3 — not wired yet</text>
+
+  <path class="ser" d="M260 692 V716 M120 716 H400 M160 716 V732 M360 716 V732 M260 716 V824"/>
+
+  <!-- Col 2: SMA CONTROL -->
+  <rect x="480" y="572" width="360" height="30" rx="8" fill="#E4F4ED" stroke="#05966950"/>
+  <text x="494" y="592" fill="#059669" font-size="11.5" font-weight="700">SOLAR PV — ARC CONTROLS (monitor + curtailment)</text>
+
+  <rect x="480" y="616" width="360" height="64" class="box" rx="10"/>
+  <text x="498" y="640" class="ip">.51</text>
+  <text x="536" y="640" class="t1">SMA STP 25000TL-30 — PV1 · unit 3</text>
+  <text x="498" y="658" class="t2">SMA-native registers · power-limit setpoints</text>
+
+  <rect x="480" y="696" width="360" height="64" class="box" rx="10"/>
+  <text x="498" y="720" class="ip">.52</text>
+  <text x="536" y="720" class="t1">SMA STP 25000TL-30 — PV2 · unit 3</text>
+  <text x="498" y="738" class="t2">SMA-native registers · power-limit setpoints</text>
+
+  <rect x="480" y="776" width="360" height="64" class="box" rx="10"/>
+  <text x="498" y="800" class="ip">.53</text>
+  <text x="536" y="800" class="t1">SMA STP 25000TL-30 — PV3 · unit 3</text>
+  <text x="498" y="818" class="t2">SMA-native registers · power-limit setpoints</text>
+
+  <text x="480" y="868" class="t3">three independent TCP endpoints — the shared unit id (3) is fine,</text>
+  <text x="480" y="883" class="t3">the IP address disambiguates each inverter</text>
+
+  <!-- Col 3: DSE -->
+  <rect x="880" y="572" width="360" height="30" rx="8" fill="#E4F4ED" stroke="#05966950"/>
+  <text x="894" y="592" fill="#059669" font-size="11.5" font-weight="700">GENSET — ARC MONITORS + DISPATCHES</text>
+
+  <rect x="880" y="616" width="360" height="76" class="box" rx="10"/>
+  <text x="898" y="640" class="ip">.71</text>
+  <text x="936" y="640" class="t1">DSE8610 MKII controller · unit 1</text>
+  <text x="898" y="658" class="t2">reads GenComm pages 4/6/7 (+ alarms page 8)</text>
+  <text x="898" y="674" class="t2">start/stop dispatch via GenComm control keys</text>
+
+  <rect x="880" y="732" width="360" height="56" class="box" rx="10"/>
+  <text x="898" y="754" class="t1" font-size="13">Perkins 135 kVA prime genset — IN SERVICE</text>
+  <text x="898" y="772" class="t2">engine hardwired to the DSE controller (sensors/starter — no network)</text>
+
+  <path class="mech" d="M1060 692 V732"/>
+  <text x="1072" y="716" class="lbl">hardwired I/O</text>
+
+  <!-- Col 4: Pylontech READ-ONLY -->
+  <rect x="1270" y="572" width="360" height="30" rx="8" fill="#E4F0F9" stroke="#0284C750"/>
+  <text x="1284" y="592" fill="#0284C7" font-size="11.5" font-weight="700">BATTERY — ARC MONITORS ONLY (no control)</text>
+
+  <rect x="1270" y="616" width="360" height="76" class="box" rx="10"/>
+  <text x="1288" y="640" class="ip">.31</text>
+  <text x="1326" y="640" class="t1">RS485↔TCP converter · unit 1</text>
+  <text x="1288" y="658" class="t2">Pylontech Modbus map V1.38 · FC03/04 reads</text>
+  <text x="1288" y="674" class="t2">ARC has no relay / charge control of the battery</text>
+
+  <rect x="1270" y="732" width="360" height="56" class="box" rx="10"/>
+  <text x="1288" y="754" class="t1">Pylontech MBMS (level-3 controller)</text>
+  <text x="1288" y="772" class="t2">protections + relay decisions are autonomous</text>
+
+  <rect x="1270" y="824" width="360" height="60" class="box" rx="10"/>
+  <text x="1288" y="846" class="t1">6 × Force-H3 strings · ~745 V DC</text>
+  <text x="1288" y="864" class="t2">internal Link-bus daisy chain → HV combiner</text>
+
+  <path class="ser" d="M1450 692 V732"/>
+  <path class="ser" d="M1450 788 V824"/>
+</svg>

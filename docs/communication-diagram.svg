@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="1340" viewBox="0 0 1680 1340" font-family="-apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .zone   { fill:#0E1320; stroke:#222C42; stroke-width:1.5; rx:14; }
+      .zlabel { fill:#64748B; font-size:12px; font-weight:700; letter-spacing:2.5px; }
+      .box    { fill:#131A2A; stroke:#2E3A55; stroke-width:1.5; }
+      .boxgrey{ fill:#0E1320; stroke:#2E3A55; stroke-width:1.2; stroke-dasharray:5 4; }
+      .t1     { fill:#E2E8F0; font-size:14px; font-weight:600; }
+      .t2     { fill:#94A3B8; font-size:11px; }
+      .t3     { fill:#64748B; font-size:10.5px; }
+      .ip     { fill:#38BDF8; font-size:12px; font-weight:700; font-family:ui-monospace, Menlo, monospace; }
+      .eth    { stroke:#64748B; stroke-width:2; fill:none; }
+      .ser    { stroke:#FBBF24; stroke-width:2.5; fill:none; stroke-dasharray:8 5; }
+      .net    { stroke:#38BDF8; stroke-width:1.8; fill:none; stroke-dasharray:2.5 4; }
+      .mech   { stroke:#475569; stroke-width:2; fill:none; stroke-dasharray:3 4; }
+      .greyeth{ stroke:#3B4251; stroke-width:1.5; fill:none; stroke-dasharray:5 4; }
+      .lbl    { fill:#64748B; font-size:10px; font-family:ui-monospace, Menlo, monospace; }
+    </style>
+  </defs>
+
+  <rect width="1680" height="1340" fill="#06090F"/>
+
+  <!-- ================= HEADER ================= -->
+  <text x="40" y="52" fill="#E2E8F0" font-size="26" font-weight="700">TEC Totota Minigrid — Communication Diagram</text>
+  <text x="40" y="80" class="t2" font-size="13">ARC LAN 192.168.0.0/24 · every field device speaks Modbus TCP on port 502 · Totota Electric Cooperative, Liberia · 2026-07-10</text>
+
+  <!-- ================= LEGEND ================= -->
+  <rect x="1150" y="18" width="490" height="86" class="zone" rx="12"/>
+  <line x1="1170" y1="42" x2="1215" y2="42" class="eth"/>
+  <text x="1225" y="46" class="t2">Ethernet (Cat5, Modbus TCP :502)</text>
+  <line x1="1170" y1="66" x2="1215" y2="66" class="ser"/>
+  <text x="1225" y="70" class="t2">RS485 serial (Modbus RTU)</text>
+  <line x1="1170" y1="90" x2="1215" y2="90" class="net"/>
+  <text x="1225" y="94" class="t2">Internet / VPN / cloud API</text>
+  <circle cx="1440" cy="42" r="5" fill="#34D399"/>
+  <text x="1452" y="46" class="t2">Modbus master (writes/controls)</text>
+  <circle cx="1440" cy="66" r="5" fill="#38BDF8"/>
+  <text x="1452" y="70" class="t2">Read-only poller</text>
+  <circle cx="1440" cy="90" r="5" fill="#475569"/>
+  <text x="1452" y="94" class="t2">Not in use / deprecated</text>
+
+  <!-- ================= REMOTE ZONE ================= -->
+  <rect x="40" y="120" width="1600" height="180" class="zone" rx="14"/>
+  <text x="60" y="148" class="zlabel">REMOTE ACCESS</text>
+
+  <rect x="140" y="170" width="250" height="92" class="box" rx="10"/>
+  <text x="160" y="196" class="t1">Solarman Cloud</text>
+  <text x="160" y="214" class="t2">station 66280946 · battery telemetry</text>
+  <text x="160" y="230" class="t2">app “Remote mode” (HTTPS API)</text>
+  <circle cx="370" cy="192" r="5" fill="#38BDF8"/>
+
+  <rect x="520" y="170" width="250" height="92" class="box" rx="10"/>
+  <text x="540" y="196" class="t1">eWon Talk2M VPN</text>
+  <text x="540" y="214" class="t2">full-LAN remote access</text>
+  <text x="540" y="230" class="t2">via eCatcher client</text>
+
+  <rect x="900" y="170" width="310" height="92" class="box" rx="10"/>
+  <text x="920" y="196" class="t1">Remote engineer</text>
+  <text x="920" y="214" class="t2">TEC Plant Monitor (Remote mode → Solarman)</text>
+  <text x="920" y="230" class="t2">or eCatcher VPN → whole ARC LAN</text>
+
+  <path class="net" d="M900 200 H390"/>
+  <path class="net" d="M900 232 H770"/>
+
+  <!-- ================= CONTROL / NETWORK ZONE ================= -->
+  <rect x="40" y="330" width="1600" height="300" class="zone" rx="14"/>
+  <text x="60" y="358" class="zlabel">CONTROL ROOM · NETWORK CORE</text>
+
+  <!-- eWon -->
+  <rect x="100" y="390" width="230" height="92" class="box" rx="10"/>
+  <text x="120" y="414" class="ip">.21</text>
+  <text x="155" y="414" class="t1">eWon Flexy 205</text>
+  <text x="120" y="432" class="t2">remote VPN gateway</text>
+  <text x="120" y="448" class="t2">WAN 192.168.1.100</text>
+  <path class="net" d="M215 390 V300 H645 V262"/>
+
+  <!-- ARC -->
+  <rect x="400" y="380" width="300" height="102" class="box" rx="10"/>
+  <text x="420" y="406" class="ip">.20</text>
+  <text x="458" y="406" class="t1">Moxa MC-1112 IPC — Ageto ARC</text>
+  <text x="420" y="426" class="t2">microgrid controller · dispatches PV / BESS / genset</text>
+  <rect x="420" y="440" width="196" height="24" rx="6" fill="#34D39918" stroke="#34D39955"/>
+  <circle cx="434" cy="452" r="4" fill="#34D399"/>
+  <text x="444" y="456" fill="#34D399" font-size="11" font-weight="700">PRIMARY MODBUS MASTER</text>
+
+  <!-- green switch -->
+  <rect x="770" y="400" width="270" height="72" class="box" rx="10"/>
+  <text x="790" y="426" class="t1">Moxa Ethernet switch</text>
+  <text x="790" y="444" class="t2">ARC panel (green) · all ports in use</text>
+  <text x="790" y="460" class="t3">core of the 192.168.0.0/24 LAN</text>
+
+  <!-- SDS switch -->
+  <rect x="1110" y="400" width="240" height="72" class="box" rx="10"/>
+  <text x="1130" y="426" class="t1">Moxa SDS-3008-T</text>
+  <text x="1130" y="444" class="t2">8-port switch added for</text>
+  <text x="1130" y="460" class="t2">commissioning access</text>
+
+  <!-- laptop -->
+  <rect x="1400" y="392" width="230" height="98" class="box" rx="10"/>
+  <text x="1420" y="416" class="ip">.50</text>
+  <text x="1458" y="416" class="t1">Field laptop</text>
+  <text x="1420" y="434" class="t2">TEC Plant Monitor + datastore</text>
+  <rect x="1420" y="446" width="100" height="24" rx="6" fill="#38BDF818" stroke="#38BDF855"/>
+  <circle cx="1434" cy="458" r="4" fill="#38BDF8"/>
+  <text x="1444" y="462" fill="#38BDF8" font-size="11" font-weight="700">READ-ONLY</text>
+
+  <!-- core ethernet -->
+  <path class="eth" d="M700 431 H770"/>
+  <path class="eth" d="M1040 436 H1110"/>
+  <text x="1046" y="428" class="lbl">uplink</text>
+  <path class="eth" d="M1350 436 H1400"/>
+  <path class="eth" d="M330 465 V540 H820 V472"/>
+
+  <!-- fan-out to field -->
+  <path class="eth" d="M875 472 V560 H250 V710"/>
+  <path class="eth" d="M905 472 V580 H665 V710"/>
+  <path class="eth" d="M935 472 V600 H880 V745 H910"/>
+  <path class="eth" d="M880 745 V829 H910"/>
+  <path class="eth" d="M880 829 V913 H910"/>
+  <path class="eth" d="M965 472 V620 H1440 V710"/>
+  <path class="greyeth" d="M1590 620 H1630 V985 H1600"/>
+  <text x="300" y="552" class="lbl">Modbus TCP :502</text>
+
+  <!-- ================= FIELD ZONE ================= -->
+  <rect x="40" y="660" width="1600" height="540" class="zone" rx="14"/>
+  <text x="60" y="688" class="zlabel">FIELD DEVICES</text>
+
+  <!-- Column 1: Battery -->
+  <text x="90" y="705" fill="#38BDF8" font-size="11" font-weight="700" letter-spacing="1.5px">BATTERY (BESS · DC SIDE)</text>
+  <rect x="90" y="712" width="320" height="76" class="box" rx="10"/>
+  <text x="108" y="736" class="ip">.31</text>
+  <text x="146" y="736" class="t1">RS485↔TCP converter · unit 1</text>
+  <text x="108" y="754" class="t2">Pylontech Modbus map V1.38 · FC03/04 read</text>
+  <text x="108" y="770" class="t2">single gated write: Run 0x1094 (commissioning)</text>
+
+  <rect x="90" y="832" width="320" height="60" class="box" rx="10"/>
+  <text x="108" y="856" class="t1">Pylontech MBMS</text>
+  <text x="108" y="874" class="t2">level-3 controller — parallels the 6 strings</text>
+
+  <rect x="90" y="940" width="320" height="66" class="box" rx="10"/>
+  <text x="108" y="964" class="t1">6 × Force-H3 strings · ~745 V DC</text>
+  <text x="108" y="982" class="t2">Link-bus daisy chain (internal) → P-Combiner-HV-6</text>
+
+  <rect x="90" y="1050" width="320" height="56" class="box" rx="10"/>
+  <text x="108" y="1072" class="t1">Solarman data logger</text>
+  <text x="108" y="1090" class="t2">uploads battery telemetry to the cloud</text>
+
+  <path class="ser" d="M250 788 V832"/>
+  <path class="ser" d="M250 892 V940"/>
+  <text x="262" y="922" class="lbl">Link bus</text>
+  <path class="net" d="M90 1078 H60 V216 H140"/>
+
+  <!-- Column 2: Battery inverters -->
+  <text x="490" y="705" fill="#FBBF24" font-size="11" font-weight="700" letter-spacing="1.5px">BATTERY INVERTERS (BESS · AC SIDE)</text>
+  <rect x="490" y="712" width="350" height="76" class="box" rx="10"/>
+  <text x="508" y="736" class="ip">.41</text>
+  <text x="546" y="736" class="t1">USR-TCP232-410s RS485↔TCP</text>
+  <text x="508" y="754" class="t2">Modbus TCP :502 → RTU 57600 8N1 half-duplex</text>
+  <text x="508" y="770" class="t2">ONE shared multidrop bus · slave IDs 1 / 2 / 3</text>
+
+  <rect x="490" y="800" width="350" height="42" rx="8" fill="#FBBF2412" stroke="#FBBF2450"/>
+  <text x="506" y="817" fill="#FBBF24" font-size="10.5" font-weight="700">⚠ ARC CONTROL BUS — single-master RS485.</text>
+  <text x="506" y="832" fill="#FBBF24" font-size="10.5">Plant Monitor polling OFF by default (ARC-safe).</text>
+
+  <rect x="490" y="862" width="165" height="70" class="box" rx="10"/>
+  <text x="504" y="884" class="t1" font-size="13">OzTek #1 · id 1</text>
+  <text x="504" y="901" class="t2">OZPCS-RS40 40 kVA</text>
+  <text x="504" y="916" class="t3">SunSpec DER 701-715</text>
+
+  <rect x="675" y="862" width="165" height="70" class="box" rx="10"/>
+  <text x="689" y="884" class="t1" font-size="13">OzTek #2 · id 2</text>
+  <text x="689" y="901" class="t2">OZPCS-RS40 40 kVA</text>
+  <text x="689" y="916" class="t3">SunSpec DER 701-715</text>
+
+  <rect x="582" y="952" width="165" height="66" class="boxgrey" rx="10"/>
+  <text x="596" y="974" fill="#94A3B8" font-size="13" font-weight="600">OzTek #3 · id 3</text>
+  <text x="596" y="991" class="t3">BATT#3 — not wired yet</text>
+  <text x="596" y="1006" class="t3">enable in registry when installed</text>
+
+  <path class="ser" d="M665 788 V852 M540 852 H810 M572 852 V862 M757 852 V862 M664 852 V945"/>
+
+  <!-- Column 3: Solar PV -->
+  <text x="910" y="705" fill="#FBBF24" font-size="11" font-weight="700" letter-spacing="1.5px">SOLAR PV</text>
+  <rect x="910" y="712" width="300" height="66" class="box" rx="10"/>
+  <text x="928" y="736" class="ip">.51</text>
+  <text x="966" y="736" class="t1">SMA STP 25000TL-30 — PV1</text>
+  <text x="928" y="754" class="t2">unit 3 · SMA-native 30xxx registers</text>
+
+  <rect x="910" y="796" width="300" height="66" class="box" rx="10"/>
+  <text x="928" y="820" class="ip">.52</text>
+  <text x="966" y="820" class="t1">SMA STP 25000TL-30 — PV2</text>
+  <text x="928" y="838" class="t2">unit 3 · SMA-native 30xxx registers</text>
+
+  <rect x="910" y="880" width="300" height="66" class="box" rx="10"/>
+  <text x="928" y="904" class="ip">.53</text>
+  <text x="966" y="904" class="t1">SMA STP 25000TL-30 — PV3</text>
+  <text x="928" y="922" class="t2">unit 3 · SMA-native 30xxx registers</text>
+
+  <text x="910" y="972" class="t3">native Ethernet Modbus — independent TCP sockets,</text>
+  <text x="910" y="987" class="t3">tolerates multiple readers (no shared serial bus)</text>
+
+  <!-- Column 4: Genset + unused -->
+  <text x="1280" y="705" fill="#F87171" font-size="11" font-weight="700" letter-spacing="1.5px">GENSET</text>
+  <rect x="1280" y="712" width="320" height="76" class="box" rx="10"/>
+  <text x="1298" y="736" class="ip">.71</text>
+  <text x="1336" y="736" class="t1">DSE8610 MKII controller · unit 1</text>
+  <text x="1298" y="754" class="t2">GenComm fixed pages 4/6/7 + alarm page 8</text>
+  <text x="1298" y="770" class="t2">native Ethernet · up to 5 TCP masters</text>
+
+  <rect x="1280" y="832" width="320" height="56" class="boxgrey" rx="10"/>
+  <text x="1298" y="854" fill="#94A3B8" font-size="13" font-weight="600">Perkins 135 kVA prime genset</text>
+  <text x="1298" y="872" class="t3">engine — hardwired I/O to the DSE controller</text>
+
+  <path class="mech" d="M1440 788 V832"/>
+
+  <rect x="1280" y="940" width="320" height="90" class="boxgrey" rx="10"/>
+  <text x="1298" y="964" fill="#64748B" font-size="12" font-weight="600">.61 · AccuEnergy Acuvim II meter — NOT IN USE</text>
+  <text x="1298" y="986" fill="#64748B" font-size="12" font-weight="600">.104 · Energport BMS — DEPRECATED</text>
+  <text x="1298" y="1008" class="t3">shown for completeness; excluded from monitoring</text>
+
+  <!-- ================= WHO POLLS WHOM ================= -->
+  <rect x="40" y="1228" width="1600" height="92" class="zone" rx="14"/>
+  <text x="60" y="1252" class="zlabel">WHO POLLS WHOM (MODBUS MASTERS)</text>
+  <circle cx="70" cy="1272" r="5" fill="#34D399"/>
+  <text x="84" y="1276" class="t2" font-size="12"><tspan fill="#E2E8F0" font-weight="600">Ageto ARC (.20)</tspan> — CONTROLS OzTek #1/#2 over the .41 RS485 bus · reads SMA ×3, DSE genset, Pylontech BMS (read-only)</text>
+  <circle cx="70" cy="1294" r="5" fill="#38BDF8"/>
+  <text x="84" y="1298" class="t2" font-size="12"><tspan fill="#E2E8F0" font-weight="600">TEC Plant Monitor (.50)</tspan> — reads Pylontech (full cell detail), SMA ×3, DSE · OzTek polling OFF by default (never a 2nd master on ARC's bus) · one gated write: BMS Run 0x1094 (commissioning)</text>
+  <circle cx="70" cy="1316" r="5" fill="#475569"/>
+  <text x="84" y="1320" class="t2" font-size="12"><tspan fill="#E2E8F0" font-weight="600">Solarman Cloud</tspan> — receives battery telemetry from the logger · serves the app's Remote mode (HTTPS, read-only, no Modbus)</text>
+</svg>

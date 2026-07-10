@@ -1,0 +1,1944 @@
+{
+  "width": 1680.0,
+  "height": 1010.0,
+  "scale_mm": 0.25,
+  "source": "/Users/aaronmineen/Developer/NRECA/TEC-Retrofit/Generator-Commissioning-TEC/BESS Installation And commissioning/bms-monitor/docs/arc-communication-diagram.svg",
+  "primitives": [
+    {
+      "type": "rect",
+      "x": 0.0,
+      "y": 0.0,
+      "w": 1680.0,
+      "h": 1010.0,
+      "rx": 0.0,
+      "style": {
+        "fill": "#FFFFFF"
+      },
+      "layer": "ARC_BACKGROUND"
+    },
+    {
+      "type": "text",
+      "x": 40.0,
+      "y": 52.0,
+      "text": "TEC Totota Minigrid \u2014 ARC Communication Architecture",
+      "size": 26.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "26",
+        "font-weight": "700"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 40.0,
+      "y": 80.0,
+      "text": "ARC (Ageto Remote Controller) is the single Modbus master of the plant \u00b7 LAN 192.168.0.0/24 \u00b7 all endpoints Modbus TCP :502 \u00b7 Totota Electric Cooperative, Liberia \u00b7 2026-07-10",
+      "size": 13.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "13"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 1150.0,
+      "y": 18.0,
+      "w": 490.0,
+      "h": 90.0,
+      "rx": 12.0,
+      "style": {
+        "fill": "#F1F5F9",
+        "stroke": "#CBD5E1",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_ZONES"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1170.0,
+          34.0
+        ],
+        [
+          1215.0,
+          34.0
+        ]
+      ],
+      "style": {
+        "stroke": "#475569",
+        "stroke-width": "2",
+        "fill": "none"
+      },
+      "layer": "ARC_ETHERNET"
+    },
+    {
+      "type": "text",
+      "x": 1225.0,
+      "y": 38.0,
+      "text": "Ethernet (Modbus TCP :502)",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1170.0,
+          55.0
+        ],
+        [
+          1215.0,
+          55.0
+        ]
+      ],
+      "style": {
+        "stroke": "#D97706",
+        "stroke-width": "2.5",
+        "fill": "none",
+        "stroke-dasharray": "8 5"
+      },
+      "layer": "ARC_RS485"
+    },
+    {
+      "type": "text",
+      "x": 1225.0,
+      "y": 59.0,
+      "text": "RS485 serial (Modbus RTU)",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1170.0,
+          76.0
+        ],
+        [
+          1215.0,
+          76.0
+        ]
+      ],
+      "style": {
+        "stroke": "#0284C7",
+        "stroke-width": "1.8",
+        "fill": "none",
+        "stroke-dasharray": "2.5 4"
+      },
+      "layer": "ARC_VPN"
+    },
+    {
+      "type": "text",
+      "x": 1225.0,
+      "y": 80.0,
+      "text": "Internet / VPN",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1170.0,
+          97.0
+        ],
+        [
+          1215.0,
+          97.0
+        ]
+      ],
+      "style": {
+        "stroke": "#94A3B8",
+        "stroke-width": "2",
+        "fill": "none",
+        "stroke-dasharray": "3 4"
+      },
+      "layer": "ARC_HARDWIRED_IO"
+    },
+    {
+      "type": "text",
+      "x": 1225.0,
+      "y": 101.0,
+      "text": "Hardwired I/O (in service, no network)",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 1420.0,
+      "y": 27.0,
+      "w": 14.0,
+      "h": 14.0,
+      "rx": 4.0,
+      "style": {
+        "fill": "#05966915",
+        "stroke": "#059669"
+      },
+      "layer": "ARC_CONTROL"
+    },
+    {
+      "type": "text",
+      "x": 1442.0,
+      "y": 39.0,
+      "text": "ARC CONTROLS (read + write)",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 1420.0,
+      "y": 55.0,
+      "w": 14.0,
+      "h": 14.0,
+      "rx": 4.0,
+      "style": {
+        "fill": "#0284C715",
+        "stroke": "#0284C7"
+      },
+      "layer": "ARC_MONITOR"
+    },
+    {
+      "type": "text",
+      "x": 1442.0,
+      "y": 67.0,
+      "text": "ARC MONITORS (read only)",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 1420.0,
+      "y": 83.0,
+      "w": 14.0,
+      "h": 14.0,
+      "rx": 4.0,
+      "style": {
+        "fill": "#F8FAFC",
+        "stroke": "#CBD5E1",
+        "stroke-dasharray": "4 3"
+      },
+      "layer": "ARC_MISC"
+    },
+    {
+      "type": "text",
+      "x": 1442.0,
+      "y": 95.0,
+      "text": "Not yet in service",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 40.0,
+      "y": 120.0,
+      "w": 1600.0,
+      "h": 290.0,
+      "rx": 14.0,
+      "style": {
+        "fill": "#F1F5F9",
+        "stroke": "#CBD5E1",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_ZONES"
+    },
+    {
+      "type": "text",
+      "x": 60.0,
+      "y": 148.0,
+      "text": "CONTROL ROOM",
+      "size": 12.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "12px",
+        "font-weight": "700",
+        "letter-spacing": "2.5px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 90.0,
+      "y": 170.0,
+      "w": 250.0,
+      "h": 80.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 108.0,
+      "y": 194.0,
+      "text": "Ageto remote support",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 108.0,
+      "y": 212.0,
+      "text": "Talk2M VPN cloud \u00b7 eCatcher clients",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 108.0,
+      "y": 228.0,
+      "text": "vendor access into the whole ARC LAN",
+      "size": 10.5,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "10.5px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 130.0,
+      "y": 290.0,
+      "w": 230.0,
+      "h": 92.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 148.0,
+      "y": 314.0,
+      "text": ".21",
+      "size": 12.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "ui-monospace, Menlo, monospace",
+      "style": {
+        "fill": "#0369A1",
+        "font-size": "12px",
+        "font-weight": "700",
+        "font-family": "ui-monospace, Menlo, monospace"
+      },
+      "layer": "ARC_IP_ADDRESSES"
+    },
+    {
+      "type": "text",
+      "x": 185.0,
+      "y": 314.0,
+      "text": "eWon Flexy 205",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 148.0,
+      "y": 332.0,
+      "text": "VPN gateway to Talk2M",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 148.0,
+      "y": 348.0,
+      "text": "WAN 192.168.1.100",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          245.0,
+          290.0
+        ],
+        [
+          245.0,
+          250.0
+        ]
+      ],
+      "style": {
+        "stroke": "#0284C7",
+        "stroke-width": "1.8",
+        "fill": "none",
+        "stroke-dasharray": "2.5 4"
+      },
+      "layer": "ARC_VPN"
+    },
+    {
+      "type": "rect",
+      "x": 560.0,
+      "y": 170.0,
+      "w": 400.0,
+      "h": 130.0,
+      "rx": 12.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 582.0,
+      "y": 200.0,
+      "text": ".20",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "ui-monospace, Menlo, monospace",
+      "style": {
+        "fill": "#0369A1",
+        "font-size": "14",
+        "font-weight": "700",
+        "font-family": "ui-monospace, Menlo, monospace"
+      },
+      "layer": "ARC_IP_ADDRESSES"
+    },
+    {
+      "type": "text",
+      "x": 625.0,
+      "y": 200.0,
+      "text": "Ageto Remote Controller (ARC)",
+      "size": 17.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "17",
+        "font-weight": "700"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 582.0,
+      "y": 222.0,
+      "text": "Moxa MC-1112 IPC \u00b7 continuous polling + dispatch loop",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 582.0,
+      "y": 238.0,
+      "text": "balances PV / BESS / genset against the site load",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 582.0,
+      "y": 252.0,
+      "w": 230.0,
+      "h": 26.0,
+      "rx": 7.0,
+      "style": {
+        "fill": "#05966912",
+        "stroke": "#05966960"
+      },
+      "layer": "ARC_CONTROL"
+    },
+    {
+      "type": "circle",
+      "cx": 597.0,
+      "cy": 265.0,
+      "r": 4.0,
+      "style": {
+        "fill": "#059669"
+      },
+      "layer": "ARC_CONTROL"
+    },
+    {
+      "type": "text",
+      "x": 608.0,
+      "y": 269.0,
+      "text": "PRIMARY & ONLY MODBUS MASTER",
+      "size": 11.5,
+      "anchor": "start",
+      "weight": "700",
+      "family": "",
+      "style": {
+        "fill": "#059669",
+        "font-size": "11.5",
+        "font-weight": "700"
+      },
+      "layer": "ARC_CONTROL_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 1120.0,
+      "y": 200.0,
+      "w": 280.0,
+      "h": 80.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 1140.0,
+      "y": 226.0,
+      "text": "Moxa Ethernet switch \u2014 ARC panel",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 1140.0,
+      "y": 244.0,
+      "text": "LAN core \u00b7 all field links terminate here",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 1140.0,
+      "y": 260.0,
+      "text": "(+ SDS-3008-T added for commissioning access)",
+      "size": 10.5,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "10.5px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          960.0,
+          235.0
+        ],
+        [
+          1120.0,
+          235.0
+        ]
+      ],
+      "style": {
+        "stroke": "#475569",
+        "stroke-width": "2",
+        "fill": "none"
+      },
+      "layer": "ARC_ETHERNET"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          245.0,
+          382.0
+        ],
+        [
+          245.0,
+          420.0
+        ],
+        [
+          1180.0,
+          420.0
+        ],
+        [
+          1180.0,
+          280.0
+        ]
+      ],
+      "style": {
+        "stroke": "#475569",
+        "stroke-width": "2",
+        "fill": "none"
+      },
+      "layer": "ARC_ETHERNET"
+    },
+    {
+      "type": "circle",
+      "cx": 245.0,
+      "cy": 382.0,
+      "r": 4.0,
+      "style": {
+        "fill": "#475569"
+      },
+      "layer": "ARC_MISC"
+    },
+    {
+      "type": "rect",
+      "x": 40.0,
+      "y": 530.0,
+      "w": 1600.0,
+      "h": 440.0,
+      "rx": 14.0,
+      "style": {
+        "fill": "#F1F5F9",
+        "stroke": "#CBD5E1",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_ZONES"
+    },
+    {
+      "type": "text",
+      "x": 60.0,
+      "y": 558.0,
+      "text": "FIELD ENDPOINTS (AS ARC SEES THEM)",
+      "size": 12.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "12px",
+        "font-weight": "700",
+        "letter-spacing": "2.5px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1200.0,
+          280.0
+        ],
+        [
+          1200.0,
+          440.0
+        ],
+        [
+          260.0,
+          440.0
+        ],
+        [
+          260.0,
+          616.0
+        ]
+      ],
+      "style": {
+        "stroke": "#475569",
+        "stroke-width": "2",
+        "fill": "none"
+      },
+      "layer": "ARC_ETHERNET"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1230.0,
+          280.0
+        ],
+        [
+          1230.0,
+          460.0
+        ],
+        [
+          660.0,
+          460.0
+        ],
+        [
+          660.0,
+          616.0
+        ]
+      ],
+      "style": {
+        "stroke": "#475569",
+        "stroke-width": "2",
+        "fill": "none"
+      },
+      "layer": "ARC_ETHERNET"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1260.0,
+          280.0
+        ],
+        [
+          1260.0,
+          480.0
+        ],
+        [
+          1060.0,
+          480.0
+        ],
+        [
+          1060.0,
+          616.0
+        ]
+      ],
+      "style": {
+        "stroke": "#475569",
+        "stroke-width": "2",
+        "fill": "none"
+      },
+      "layer": "ARC_ETHERNET"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1290.0,
+          280.0
+        ],
+        [
+          1290.0,
+          500.0
+        ],
+        [
+          1450.0,
+          500.0
+        ],
+        [
+          1450.0,
+          616.0
+        ]
+      ],
+      "style": {
+        "stroke": "#475569",
+        "stroke-width": "2",
+        "fill": "none"
+      },
+      "layer": "ARC_ETHERNET"
+    },
+    {
+      "type": "circle",
+      "cx": 260.0,
+      "cy": 616.0,
+      "r": 4.0,
+      "style": {
+        "fill": "#475569"
+      },
+      "layer": "ARC_MISC"
+    },
+    {
+      "type": "circle",
+      "cx": 660.0,
+      "cy": 616.0,
+      "r": 4.0,
+      "style": {
+        "fill": "#475569"
+      },
+      "layer": "ARC_MISC"
+    },
+    {
+      "type": "circle",
+      "cx": 1060.0,
+      "cy": 616.0,
+      "r": 4.0,
+      "style": {
+        "fill": "#475569"
+      },
+      "layer": "ARC_MISC"
+    },
+    {
+      "type": "circle",
+      "cx": 1450.0,
+      "cy": 616.0,
+      "r": 4.0,
+      "style": {
+        "fill": "#475569"
+      },
+      "layer": "ARC_MISC"
+    },
+    {
+      "type": "text",
+      "x": 300.0,
+      "y": 432.0,
+      "text": "Modbus TCP :502",
+      "size": 10.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "ui-monospace, Menlo, monospace",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "10px",
+        "font-family": "ui-monospace, Menlo, monospace"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 70.0,
+      "y": 572.0,
+      "w": 380.0,
+      "h": 30.0,
+      "rx": 8.0,
+      "style": {
+        "fill": "#E4F4ED",
+        "stroke": "#05966950"
+      },
+      "layer": "ARC_CONTROL"
+    },
+    {
+      "type": "text",
+      "x": 84.0,
+      "y": 592.0,
+      "text": "BATTERY INVERTERS \u2014 ARC CONTROLS (read + write)",
+      "size": 11.5,
+      "anchor": "start",
+      "weight": "700",
+      "family": "",
+      "style": {
+        "fill": "#059669",
+        "font-size": "11.5",
+        "font-weight": "700"
+      },
+      "layer": "ARC_CONTROL_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 70.0,
+      "y": 616.0,
+      "w": 380.0,
+      "h": 76.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 88.0,
+      "y": 640.0,
+      "text": ".41",
+      "size": 12.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "ui-monospace, Menlo, monospace",
+      "style": {
+        "fill": "#0369A1",
+        "font-size": "12px",
+        "font-weight": "700",
+        "font-family": "ui-monospace, Menlo, monospace"
+      },
+      "layer": "ARC_IP_ADDRESSES"
+    },
+    {
+      "type": "text",
+      "x": 126.0,
+      "y": 640.0,
+      "text": "USR-TCP232-410s RS485\u2194TCP",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 88.0,
+      "y": 658.0,
+      "text": "Modbus TCP :502 \u2192 RTU 57600 8N1 \u00b7 half-duplex",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 88.0,
+      "y": 674.0,
+      "text": "ONE multidrop bus \u2014 ARC is its only master",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 70.0,
+      "y": 732.0,
+      "w": 180.0,
+      "h": 72.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 84.0,
+      "y": 754.0,
+      "text": "OzTek #1 \u00b7 id 1",
+      "size": 13.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "13",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 84.0,
+      "y": 771.0,
+      "text": "OZPCS-RS40 40 kVA",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 84.0,
+      "y": 786.0,
+      "text": "heartbeat \u00b7 start/stop \u00b7 limits",
+      "size": 10.5,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "10.5px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 270.0,
+      "y": 732.0,
+      "w": 180.0,
+      "h": 72.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 284.0,
+      "y": 754.0,
+      "text": "OzTek #2 \u00b7 id 2",
+      "size": 13.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "13",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 284.0,
+      "y": 771.0,
+      "text": "OZPCS-RS40 40 kVA",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 284.0,
+      "y": 786.0,
+      "text": "heartbeat \u00b7 start/stop \u00b7 limits",
+      "size": 10.5,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "10.5px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 170.0,
+      "y": 824.0,
+      "w": 180.0,
+      "h": 60.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#F8FAFC",
+        "stroke": "#CBD5E1",
+        "stroke-width": "1.2",
+        "stroke-dasharray": "5 4"
+      },
+      "layer": "ARC_NOT_IN_SERVICE"
+    },
+    {
+      "type": "text",
+      "x": 184.0,
+      "y": 846.0,
+      "text": "OzTek #3 \u00b7 id 3",
+      "size": 13.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "13",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 184.0,
+      "y": 863.0,
+      "text": "BATT#3 \u2014 not wired yet",
+      "size": 10.5,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "10.5px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          260.0,
+          692.0
+        ],
+        [
+          260.0,
+          716.0
+        ]
+      ],
+      "style": {
+        "stroke": "#D97706",
+        "stroke-width": "2.5",
+        "fill": "none",
+        "stroke-dasharray": "8 5"
+      },
+      "layer": "ARC_RS485"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          120.0,
+          716.0
+        ],
+        [
+          400.0,
+          716.0
+        ]
+      ],
+      "style": {
+        "stroke": "#D97706",
+        "stroke-width": "2.5",
+        "fill": "none",
+        "stroke-dasharray": "8 5"
+      },
+      "layer": "ARC_RS485"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          160.0,
+          716.0
+        ],
+        [
+          160.0,
+          732.0
+        ]
+      ],
+      "style": {
+        "stroke": "#D97706",
+        "stroke-width": "2.5",
+        "fill": "none",
+        "stroke-dasharray": "8 5"
+      },
+      "layer": "ARC_RS485"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          360.0,
+          716.0
+        ],
+        [
+          360.0,
+          732.0
+        ]
+      ],
+      "style": {
+        "stroke": "#D97706",
+        "stroke-width": "2.5",
+        "fill": "none",
+        "stroke-dasharray": "8 5"
+      },
+      "layer": "ARC_RS485"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          260.0,
+          716.0
+        ],
+        [
+          260.0,
+          824.0
+        ]
+      ],
+      "style": {
+        "stroke": "#D97706",
+        "stroke-width": "2.5",
+        "fill": "none",
+        "stroke-dasharray": "8 5"
+      },
+      "layer": "ARC_RS485"
+    },
+    {
+      "type": "rect",
+      "x": 480.0,
+      "y": 572.0,
+      "w": 360.0,
+      "h": 30.0,
+      "rx": 8.0,
+      "style": {
+        "fill": "#E4F4ED",
+        "stroke": "#05966950"
+      },
+      "layer": "ARC_CONTROL"
+    },
+    {
+      "type": "text",
+      "x": 494.0,
+      "y": 592.0,
+      "text": "SOLAR PV \u2014 ARC CONTROLS (monitor + curtailment)",
+      "size": 11.5,
+      "anchor": "start",
+      "weight": "700",
+      "family": "",
+      "style": {
+        "fill": "#059669",
+        "font-size": "11.5",
+        "font-weight": "700"
+      },
+      "layer": "ARC_CONTROL_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 480.0,
+      "y": 616.0,
+      "w": 360.0,
+      "h": 64.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 498.0,
+      "y": 640.0,
+      "text": ".51",
+      "size": 12.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "ui-monospace, Menlo, monospace",
+      "style": {
+        "fill": "#0369A1",
+        "font-size": "12px",
+        "font-weight": "700",
+        "font-family": "ui-monospace, Menlo, monospace"
+      },
+      "layer": "ARC_IP_ADDRESSES"
+    },
+    {
+      "type": "text",
+      "x": 536.0,
+      "y": 640.0,
+      "text": "SMA STP 25000TL-30 \u2014 PV1 \u00b7 unit 3",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 498.0,
+      "y": 658.0,
+      "text": "SMA-native registers \u00b7 power-limit setpoints",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 480.0,
+      "y": 696.0,
+      "w": 360.0,
+      "h": 64.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 498.0,
+      "y": 720.0,
+      "text": ".52",
+      "size": 12.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "ui-monospace, Menlo, monospace",
+      "style": {
+        "fill": "#0369A1",
+        "font-size": "12px",
+        "font-weight": "700",
+        "font-family": "ui-monospace, Menlo, monospace"
+      },
+      "layer": "ARC_IP_ADDRESSES"
+    },
+    {
+      "type": "text",
+      "x": 536.0,
+      "y": 720.0,
+      "text": "SMA STP 25000TL-30 \u2014 PV2 \u00b7 unit 3",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 498.0,
+      "y": 738.0,
+      "text": "SMA-native registers \u00b7 power-limit setpoints",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 480.0,
+      "y": 776.0,
+      "w": 360.0,
+      "h": 64.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 498.0,
+      "y": 800.0,
+      "text": ".53",
+      "size": 12.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "ui-monospace, Menlo, monospace",
+      "style": {
+        "fill": "#0369A1",
+        "font-size": "12px",
+        "font-weight": "700",
+        "font-family": "ui-monospace, Menlo, monospace"
+      },
+      "layer": "ARC_IP_ADDRESSES"
+    },
+    {
+      "type": "text",
+      "x": 536.0,
+      "y": 800.0,
+      "text": "SMA STP 25000TL-30 \u2014 PV3 \u00b7 unit 3",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 498.0,
+      "y": 818.0,
+      "text": "SMA-native registers \u00b7 power-limit setpoints",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 480.0,
+      "y": 868.0,
+      "text": "three independent TCP endpoints \u2014 the shared unit id (3) is fine,",
+      "size": 10.5,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "10.5px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 480.0,
+      "y": 883.0,
+      "text": "the IP address disambiguates each inverter",
+      "size": 10.5,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "10.5px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 880.0,
+      "y": 572.0,
+      "w": 360.0,
+      "h": 30.0,
+      "rx": 8.0,
+      "style": {
+        "fill": "#E4F4ED",
+        "stroke": "#05966950"
+      },
+      "layer": "ARC_CONTROL"
+    },
+    {
+      "type": "text",
+      "x": 894.0,
+      "y": 592.0,
+      "text": "GENSET \u2014 ARC MONITORS + DISPATCHES",
+      "size": 11.5,
+      "anchor": "start",
+      "weight": "700",
+      "family": "",
+      "style": {
+        "fill": "#059669",
+        "font-size": "11.5",
+        "font-weight": "700"
+      },
+      "layer": "ARC_CONTROL_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 880.0,
+      "y": 616.0,
+      "w": 360.0,
+      "h": 76.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 898.0,
+      "y": 640.0,
+      "text": ".71",
+      "size": 12.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "ui-monospace, Menlo, monospace",
+      "style": {
+        "fill": "#0369A1",
+        "font-size": "12px",
+        "font-weight": "700",
+        "font-family": "ui-monospace, Menlo, monospace"
+      },
+      "layer": "ARC_IP_ADDRESSES"
+    },
+    {
+      "type": "text",
+      "x": 936.0,
+      "y": 640.0,
+      "text": "DSE8610 MKII controller \u00b7 unit 1",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 898.0,
+      "y": 658.0,
+      "text": "reads GenComm pages 4/6/7 (+ alarms page 8)",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 898.0,
+      "y": 674.0,
+      "text": "start/stop dispatch via GenComm control keys",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 880.0,
+      "y": 732.0,
+      "w": 360.0,
+      "h": 56.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 898.0,
+      "y": 754.0,
+      "text": "Perkins 135 kVA prime genset \u2014 IN SERVICE",
+      "size": 13.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "13",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 898.0,
+      "y": 772.0,
+      "text": "engine hardwired to the DSE controller (sensors/starter \u2014 no network)",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1060.0,
+          692.0
+        ],
+        [
+          1060.0,
+          732.0
+        ]
+      ],
+      "style": {
+        "stroke": "#94A3B8",
+        "stroke-width": "2",
+        "fill": "none",
+        "stroke-dasharray": "3 4"
+      },
+      "layer": "ARC_HARDWIRED_IO"
+    },
+    {
+      "type": "text",
+      "x": 1072.0,
+      "y": 716.0,
+      "text": "hardwired I/O",
+      "size": 10.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "ui-monospace, Menlo, monospace",
+      "style": {
+        "fill": "#64748B",
+        "font-size": "10px",
+        "font-family": "ui-monospace, Menlo, monospace"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 1270.0,
+      "y": 572.0,
+      "w": 360.0,
+      "h": 30.0,
+      "rx": 8.0,
+      "style": {
+        "fill": "#E4F0F9",
+        "stroke": "#0284C750"
+      },
+      "layer": "ARC_MONITOR"
+    },
+    {
+      "type": "text",
+      "x": 1284.0,
+      "y": 592.0,
+      "text": "BATTERY \u2014 ARC MONITORS ONLY (no control)",
+      "size": 11.5,
+      "anchor": "start",
+      "weight": "700",
+      "family": "",
+      "style": {
+        "fill": "#0284C7",
+        "font-size": "11.5",
+        "font-weight": "700"
+      },
+      "layer": "ARC_MONITOR_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 1270.0,
+      "y": 616.0,
+      "w": 360.0,
+      "h": 76.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 1288.0,
+      "y": 640.0,
+      "text": ".31",
+      "size": 12.0,
+      "anchor": "start",
+      "weight": "700",
+      "family": "ui-monospace, Menlo, monospace",
+      "style": {
+        "fill": "#0369A1",
+        "font-size": "12px",
+        "font-weight": "700",
+        "font-family": "ui-monospace, Menlo, monospace"
+      },
+      "layer": "ARC_IP_ADDRESSES"
+    },
+    {
+      "type": "text",
+      "x": 1326.0,
+      "y": 640.0,
+      "text": "RS485\u2194TCP converter \u00b7 unit 1",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 1288.0,
+      "y": 658.0,
+      "text": "Pylontech Modbus map V1.38 \u00b7 FC03/04 reads",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 1288.0,
+      "y": 674.0,
+      "text": "ARC has no relay / charge control of the battery",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 1270.0,
+      "y": 732.0,
+      "w": 360.0,
+      "h": 56.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 1288.0,
+      "y": 754.0,
+      "text": "Pylontech MBMS (level-3 controller)",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 1288.0,
+      "y": 772.0,
+      "text": "protections + relay decisions are autonomous",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "rect",
+      "x": 1270.0,
+      "y": 824.0,
+      "w": 360.0,
+      "h": 60.0,
+      "rx": 10.0,
+      "style": {
+        "fill": "#FFFFFF",
+        "stroke": "#94A3B8",
+        "stroke-width": "1.5"
+      },
+      "layer": "ARC_DEVICE_BOXES"
+    },
+    {
+      "type": "text",
+      "x": 1288.0,
+      "y": 846.0,
+      "text": "6 \u00d7 Force-H3 strings \u00b7 ~745 V DC",
+      "size": 14.0,
+      "anchor": "start",
+      "weight": "600",
+      "family": "",
+      "style": {
+        "fill": "#0F172A",
+        "font-size": "14px",
+        "font-weight": "600"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "text",
+      "x": 1288.0,
+      "y": 864.0,
+      "text": "internal Link-bus daisy chain \u2192 HV combiner",
+      "size": 11.0,
+      "anchor": "start",
+      "weight": "400",
+      "family": "",
+      "style": {
+        "fill": "#475569",
+        "font-size": "11px"
+      },
+      "layer": "ARC_TEXT"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1450.0,
+          692.0
+        ],
+        [
+          1450.0,
+          732.0
+        ]
+      ],
+      "style": {
+        "stroke": "#D97706",
+        "stroke-width": "2.5",
+        "fill": "none",
+        "stroke-dasharray": "8 5"
+      },
+      "layer": "ARC_RS485"
+    },
+    {
+      "type": "polyline",
+      "points": [
+        [
+          1450.0,
+          788.0
+        ],
+        [
+          1450.0,
+          824.0
+        ]
+      ],
+      "style": {
+        "stroke": "#D97706",
+        "stroke-width": "2.5",
+        "fill": "none",
+        "stroke-dasharray": "8 5"
+      },
+      "layer": "ARC_RS485"
+    }
+  ]
+}
